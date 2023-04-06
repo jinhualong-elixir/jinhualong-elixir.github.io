@@ -1,7 +1,8 @@
 <template>
   <div class="page">
-      <h2>test test test</h2>
-      <p>test test testtest test test</p>
+      <h2>有你的周一</h2>
+      <p>不找你充充电怎么熬得过讨厌的周一？</p>
+      <p>“摸鱼的一周开始啦，我们下周去哪儿玩呢。。。”</p>
   </div>
 </template>
 
@@ -20,23 +21,38 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1,h2,h3,h4,h5,h6{
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: yinhexi, Arial, Helvetica, sans-serif;
   font-weight: bold;
+      color: darkgreen;
+    font-size: 2.3rem;
 }
 p{
-  font-family: Verdana, sans-serif;
-  font-size: 16px;
+  font-family: yinhexi, Verdana, sans-serif;
+  font-size: 25px;
   line-height: 1.5;
   color: #333333;
 }
 
 .page{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+    background: white;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: .8s;
+    opacity: 0;
+}
+.page::after{
+    content: '';
+    position: absolute;
+    height: 50%;
+    width: 100%;
+    background: white;
+    opacity: 0;
+}
 
 </style>

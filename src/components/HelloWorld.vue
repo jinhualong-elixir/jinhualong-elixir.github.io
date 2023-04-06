@@ -1,115 +1,420 @@
 <template>
   <div class="hello grid-container">
+    <meting-js
+      server="tencent"
+      type="playlist"
+      id="8574171521"
+      fixed="true"
+      autoplay="true"
+      loop="all"
+      order="list"
+      preload="auto"
+      list-folded="true"
+      list-max-height="500px"
+      lrc-type="1"
+    >
+    </meting-js>
+    <div class="letter" ref="letter">
+      <button @click="handleClick">back</button>
+      <div class="paper">
+              <h1 class="title">{{ title }}</h1>
+      <p class="l-content">{{ content }}</p>
+      </div>
+
+    </div>
+    <div class="envelope-container">
+      <div class="envelope"></div>
+      <div class="card" id="test" @click="handleClick">
+        <h1 class="message" >WILL YOU BE MY VALENTINE?</h1>
+      </div>
+      <div class="cover"></div>
+      <div class="lid"></div>
+    </div>
     <div
       v-for="i in 4"
       :key="i"
-      :style="{ top: '0px', left: (i-1)*20+'%' }"
+      :style="{ top: '0px', left: (i - 1) * 20 + '%' }"
       class="image-container"
     >
       <img :src="require(`@/assets/img/egg.png`)" class="image" />
     </div>
-      <div
-      v-for="i in 5"
+    <div
+      v-for="i in 7"
       :key="i"
-      :style="{ bottom: '0px', left: (i-1)*20+'%' }"
+      :style="{ bottom: '0px', left: (i - 1) * (100 / 7) + '%' }"
       class="image-container"
     >
-      <img :src="require(`@/assets/img/heart.png`)" class="image" />
+      <img
+        :src="require(`@/assets/img/heart.png`)"
+        class="image heart content"
+      />
     </div>
     <el-image
-        class="bg"
-        :src="require(`@/assets/img/p${currentIndex+1}.jpg`)"
-        fit="fill"></el-image>
+      class="bg"
+      :src="require(`@/assets/img/p${currentIndex + 1}.jpg`)"
+      fit="fill"
+    ></el-image>
     <header>
-        <div class="mirror">
-          <video ref="video" autoplay></video>
-        </div>
+      <div class="mirror">
+        <video ref="video" autoplay></video>
+      </div>
     </header>
     <main>
       <div class="carl">
-        <el-carousel  ref="carl" @change="carouselChange" :interval="7000000" card-width="700" type="card" height="500px">
+        <el-carousel
+          ref="carl"
+          @change="carouselChange"
+          :interval="7000000"
+          card-width="700"
+          type="card"
+          height="500px"
+        >
           <el-carousel-item>
-            <SlideOne/>
+            <i class="love fa fa-heart" @click="markHeart($event, 1)"></i>
+            <SlideOne />
           </el-carousel-item>
           <el-carousel-item>
-            <SlideTwo/>
+            <i class="love fa fa-heart" @click="markHeart($event, 2)"></i>
+            <SlideTwo />
           </el-carousel-item>
           <el-carousel-item>
-            <SlideThree/>
+            <i class="love fa fa-heart" @click="markHeart($event, 3)"></i>
+            <SlideThree />
           </el-carousel-item>
           <el-carousel-item>
-            <SlideFour/>
+            <i class="love fa fa-heart" @click="markHeart($event, 4)"></i>
+            <SlideFour />
+          </el-carousel-item>
+          <el-carousel-item>
+            <i class="love fa fa-heart" @click="markHeart($event, 5)"></i>
+            <SlideFive />
+          </el-carousel-item>
+          <el-carousel-item>
+            <i class="love fa fa-heart" @click="markHeart($event, 6)"></i>
+            <SlideSix />
+          </el-carousel-item>
+          <el-carousel-item>
+            <i class="love fa fa-heart" @click="markHeart($event, 7)"></i>
+            <SlideSeven />
           </el-carousel-item>
         </el-carousel>
       </div>
     </main>
 
-    <footer>Designed by Bryan • <a href="https://github.com/alexwidua/prototypes" target="_blank" rel="noopener">Github</a></footer>
-        
+    <footer>
+      Designed by Bryan •
+      <a
+        href="https://github.com/alexwidua/prototypes"
+        target="_blank"
+        rel="noopener"
+        >Github</a
+      >
+    </footer>
   </div>
 </template>
 
 <script>
-import SlideOne from './slides/SlideOne.vue'
-import SlideTwo from './slides/SlideOne.vue'
-import SlideThree from './slides/SlideOne.vue'
-import SlideFour from './slides/SlideOne.vue'
+import SlideOne from "./slides/SlideOne.vue";
+import SlideTwo from "./slides/SlideTwo.vue";
+import SlideThree from "./slides/SlideThree.vue";
+import SlideFour from "./slides/SlideFour.vue";
+import SlideFive from "./slides/SlideFive.vue";
+import SlideSix from "./slides/SlideSix.vue";
+import SlideSeven from "./slides/SlideSeven.vue";
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   data() {
     return {
       currentIndex: 0,
-      numIcons:8,
-      radius:150
-    }
+      numIcons: 8,
+      radius: 150,
+            title: 'asdasda',
+      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae semper magna. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec mauris lectus, tincidunt vitae cursus ac, sodales sed libero. Sed in metus sed ex interdum cursus non ut arcu. Nunc eu mi nec augue mollis eleifend id id augue. Duis ut tortor ac elit finibus feugiat. Integer in quam ornare, lobortis est eu, convallis arcu. Sed ut eros commodo.',
+    };
   },
   components: {
     SlideOne,
     SlideTwo,
     SlideThree,
     SlideFour,
+    SlideFive,
+    SlideSix,
+    SlideSeven,
   },
   props: {
-    msg: String
+    msg: String,
   },
   created() {
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
-      .then(stream => {
+    navigator.mediaDevices
+      .getUserMedia({ video: { facingMode: "user" } })
+      .then((stream) => {
         this.$refs.video.srcObject = stream;
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   },
   mounted() {
-    const carl = this.$refs.carl.$el
-    carl.addEventListener("wheel",this.handleWheel)
+    const carl = this.$refs.carl.$el;
+    carl.addEventListener("wheel", this.handleWheel);
   },
   beforeUnmount() {
-    const carl = this.$refs.carl.$el
-    carl.removeEventListener("wheel",this.handleWheel)
+    const carl = this.$refs.carl.$el;
+    carl.removeEventListener("wheel", this.handleWheel);
   },
-  methods:{
-    carouselChange(index){
-      this.currentIndex = index
+  methods: {
+    handleClick(){
+   
+       this.$refs.letter.classList.toggle("expanded");
     },
-    handleWheel(e){
-      const delta = e.deltaY
-      const carl = this.$refs.carl
-      if(delta>0){
-        carl.next()
-      }else{
-        carl.prev()
+    carouselChange(index) {
+      this.currentIndex = index;
+    },
+    handleWheel(e) {
+      const delta = e.deltaY;
+      const carl = this.$refs.carl;
+      if (delta > 0) {
+        carl.next();
+      } else {
+        carl.prev();
       }
-    }
-  }
+    },
+    markHeart(e, i) {
+      e.target.classList.toggle("active");
 
-}
+      let heartList = document.getElementsByClassName("heart");
+      if (e.target.classList.contains("active")) {
+        heartList[i - 1].classList.add("actived");
+      } else {
+        heartList[i - 1].classList.remove("actived");
+      }
 
+      if (document.getElementsByClassName("actived").length == 7) {
+        heartList[heartList.length - 1].classList.add("special");
+      } else {
+        heartList[heartList.length - 1].classList.remove("special");
+      }
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
+@keyframes open {
+  100% {
+    transform: rotatex(180deg);
+  }
+}
+/*信件合上的动画*/
+@keyframes open-rev {
+  from {
+    transform: rotatex(-180deg);
+  }
+}
+.card {
+  position: absolute;
+  /*白色的卡片*/
+  background: white;
+  height: 25vmin;
+  width: 43vmin;
+  display: flex;
+  /*设置div水平显示*/
+  flex-direction: column;
+  /*设置flex子项在每个flex行的交叉轴上的中心对齐，交叉轴方向为column，即垂直方向**/
+  align-items: center;
+  /*设置flex子项在主轴上的中心对齐*/
+  justify-content: center;
+  left: 2.5vmin;
+  top: 0vmin;
+  cursor: pointer;
+  animation: slide-rev 0.2s ease-out;
+
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.letter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 30vmin;
+  width: 48vmin;
+  margin: -30vmin 0 0 -24vmin;
+  background: white;
+  transition: all .8s ease-in-out;
+  button{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1;
+  }
+  h1,p{
+    color: black;
+  }
+}
+.paper{
+    width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+.title {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 50px 0px 50px 150px;
+}
+
+.l-content {
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: center;
+  padding: 50px 150px 50px 150px;
+}
+.paper:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("https://dogefs.s3.ladydaily.com/~/source/unsplash/photo-1586074299757-dc655f18518c?ixlib=rb-4.0.3&q=85&fmt=jpg&crop=entropy&cs=srgb&dl=marjan-blan-marjanblan-794QUz5-cso-unsplash.jpg");
+  opacity: 0.3;
+}
+.letter.expanded {
+  top: 0;
+  left: 0;
+  margin: 53px;
+    height: 80%;
+    width: 90%;
+  border-radius: 0;
+  background: white;
+  z-index: 999;
+
+   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+
+.envelope-container:hover .card {
+  /*卡片划出动画*/
+  animation: slide 0.2s;
+  animation-delay: 0.5s;
+  /*把卡面动画地从一个地方移动到另一个地方，并让它停留在那里。*/
+  animation-fill-mode: forwards;
+}
+/*卡片划出信封*/
+@keyframes slide {
+  100% {
+    transform: translatey(-15vmin);
+    z-index: 2;
+  }
+}
+/*卡片落回信封*/
+@keyframes slide-rev {
+  from {
+    transform: translatey(-15vmin);
+  }
+}
+.lid {
+  position: absolute;
+  height: 0;
+  width: 0;
+
+  border-top: 15vmin solid #ff8896;
+  border-left: 24vmin solid transparent;
+  border-right: 24vmin solid transparent;
+
+  top: 0;
+  /*设置旋转元素的基点位置，为盒子的顶部边缘*/
+  transform-origin: top;
+  animation: open-rev 2s;
+}
+
+.envelope-container:hover .lid {
+  animation: open 0.5s;
+  animation-fill-mode: forwards;
+}
+.cover {
+  position: absolute;
+  height: 0;
+  width: 0;
+
+  border-bottom: 15vmin solid #f5b5bb;
+  border-left: 24vmin solid transparent;
+  border-right: 24vmin solid transparent;
+  top: 15vmin;
+  z-index: 3;
+}
+
+.cover::after {
+  /*left triangle*/
+  position: absolute;
+  content: "";
+  border-left: 24.5vmin solid #ffbbc1;
+  border-bottom: 15vmin solid transparent;
+  border-top: 15vmin solid transparent;
+  top: -15vmin;
+  left: -24vmin;
+}
+
+.cover::before {
+  position: absolute;
+  content: "";
+  border-right: 24.5vmin solid #ffbbc1;
+  border-bottom: 15vmin solid transparent;
+  border-top: 15vmin solid transparent;
+  top: -15vmin;
+  left: -0.5vmin;
+}
+.envelope-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -15vmin 0 0 -24vmin;
+  z-index: 998;
+
+   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+/*相对定位，并设置背景色和大小*/
+.envelope {
+  position: relative;
+  background: #eb7885;
+  height: 30vmin;
+  width: 48vmin;
+}
+.love {
+  font-size: 2.5rem;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+// .love:hover{
+//   color: red;
+// }
+.love.active {
+  color: red;
+}
+.heart {
+  filter: grayscale(1);
+}
+.heart.actived {
+  filter: unset;
+}
+
 .image-container {
   position: absolute;
   width: 13%;
@@ -127,40 +432,48 @@ export default {
   max-height: 100%;
 }
 
-.hello{height: 100%;}
-.grid-container{
-    display: grid;
-    grid-template-rows: 100px 1fr 50px;
-    grid-template-areas:
-    'header'
-    'main'
-    'footer';
+.hello {
+  height: 100%;
+}
+.grid-container {
+  display: grid;
+  grid-template-rows: 100px 1fr 50px;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
 }
 
-
-.mirror { 
+.mirror {
   height: 100%;
   width: 80px;
   float: right;
   border-radius: 50%;
-  overflow: hidden;  
+  overflow: hidden;
 
-  margin-right: 80px
+  margin-right: 80px;
+
+   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
-.mirror::after{
-  content: '';
+.mirror::after {
+  content: "";
   position: absolute;
   height: 80px;
   width: 80px;
-  background-image: url('../assets/img/demon.png');
+  background-image: url("../assets/img/demon.png");
   background-size: cover;
   background-position: center;
   right: 80px;
 }
 .carl {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 video {
@@ -171,64 +484,161 @@ video {
   transform: scaleX(-1);
 }
 
-
 .el-carousel__item {
-    width: 70%;
-    left: -10%;
+  width: 70%;
+  left: -10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.el-carousel__item:hover {
+  .page::after {
+    opacity: 0.55;
+    z-index: -1;
+  }
+  .page {
+    opacity: 1;
+    background: transparent;
+  }
 }
 
 .el-carousel__item:nth-child(3) {
-    background-image: url('../assets/img/p1.jpg');
-    background-size: cover;
-    background-position: center;
+  background-image: url("../assets/img/p1.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .el-carousel__item:nth-child(4) {
-    background-image: url('../assets/img/p2.jpg');
-    background-size: cover;
-    background-position: center;
+  background-image: url("../assets/img/p2.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .el-carousel__item:nth-child(5) {
-    background-image: url('../assets/img/p3.jpg');
-    background-size: cover;
-    background-position: center;
+  background-image: url("../assets/img/p3.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .el-carousel__item:nth-child(6) {
-    background-image: url('../assets/img/p4.jpg');
-    background-size: cover;
-    background-position: center;
+  background-image: url("../assets/img/p4.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
-header{
+.el-carousel__item:nth-child(7) {
+  background-image: url("../assets/img/p5.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.el-carousel__item:nth-child(8) {
+  background-image: url("../assets/img/p6.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.el-carousel__item:nth-child(9) {
+  background-image: url("../assets/img/p7.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+header {
   grid-area: header;
   z-index: 1;
 
   padding: 10px;
 }
-main{
+main {
   grid-area: main;
 }
-footer{
+footer {
   grid-area: footer;
   z-index: 1;
 }
 
-.bg{
-    position: absolute;
-    top: 0;
-    object-fit: fill;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.bg {
+  position: absolute;
+  top: 0;
+  object-fit: fill;
+  left: 0;
+  width: 100%;
+  height: 100%;
 
-    filter: blur(40px);
+  filter: blur(40px);
 }
-.bg::after{
+.bg::after {
   content: "";
   display: block;
-  background: rgba(0,0,0,0.5);
-  z-index:1;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+@keyframes zy {
+  10% {
+    transform: rotate(15deg);
+  }
+  20% {
+    transform: rotate(-10deg);
+  }
+  30% {
+    transform: rotate(5deg);
+  }
+  40% {
+    transform: rotate(-5deg);
+  }
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+/* 使用 */
+.content.actived {
+  animation: zy 2.5s 0.15s linear infinite;
+  animation: zy 2.5s 0.15s linear infinite;
+  animation: zy 2.5s 0.15s linear infinite;
+  animation: zy 2.5s 0.15s linear infinite;
+}
+
+.content:hover {
+  animation: unset;
+  transform: scale(1.05);
+}
+
+.special {
+  animation: zy 0.5s 0.05s linear infinite !important;
+  animation: zy 0.5s 0.05s linear infinite !important;
+  animation: zy 0.5s 0.05s linear infinite !important;
+  animation: zy 0.5s 0.05s linear infinite !important;
+}
+.special:hover {
+  animation: unset !important;
+  transform: scale(1.05);
+}
+.special:active {
+  transform: scale(1);
+}
+
+// /* 兼容写法 */
+// animation: zy 2.5s .15s linear infinite;
+// -moz-animation: zy 2.5s .15s linear infinite; /* Firefox */
+// -webkit-animation: zy 2.5s .15s linear infinite; /* Safari and Chrome */
+// -o-animation: zy 2.5s .15s linear infinite; /* Opera */
+
+.card h1{
+  color: #000000;
+}
+
+.card:hover{
+  
 }
 </style>
