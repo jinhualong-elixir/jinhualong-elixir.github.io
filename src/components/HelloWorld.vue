@@ -15,17 +15,19 @@
     >
     </meting-js>
     <div class="letter" ref="letter">
-      <button @click="handleClick">back</button>
+      <button @click="handleBackClick">
+        <el-icon><CloseBold /></el-icon>
+      </button>
       <div class="paper">
-              <h1 class="title">{{ title }}</h1>
-      <p class="l-content">{{ content }}</p>
+        <h1 class="title">{{ title }}</h1>
+        <p class="l-content">{{ content }}</p>
+        <p class="l-content">{{ content }}</p>
       </div>
-
     </div>
-    <div class="envelope-container">
+    <div class="envelope-container" ref="envelope">
       <div class="envelope"></div>
-      <div class="card" id="test" @click="handleClick">
-        <h1 class="message" >WILL YOU BE MY VALENTINE?</h1>
+      <div class="card" id="test" @click="handleCardClick">
+        <h1 class="message">WILL YOU BE MY VALENTINE?</h1>
       </div>
       <div class="cover"></div>
       <div class="lid"></div>
@@ -47,6 +49,7 @@
       <img
         :src="require(`@/assets/img/heart.png`)"
         class="image heart content"
+        @click="handleHeartClick"
       />
     </div>
     <el-image
@@ -128,8 +131,9 @@ export default {
       currentIndex: 0,
       numIcons: 8,
       radius: 150,
-            title: 'asdasda',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae semper magna. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec mauris lectus, tincidunt vitae cursus ac, sodales sed libero. Sed in metus sed ex interdum cursus non ut arcu. Nunc eu mi nec augue mollis eleifend id id augue. Duis ut tortor ac elit finibus feugiat. Integer in quam ornare, lobortis est eu, convallis arcu. Sed ut eros commodo.',
+      title: "asdasda",
+      content:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae semper magna. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec mauris lectus, tincidunt vitae cursus ac, sodales sed libero. Sed in metus sed ex interdum cursus non ut arcu. Nunc eu mi nec augue mollis eleifend id id augue. Duis ut tortor ac elit finibus feugiat. Integer in quam ornare, lobortis est eu, convallis arcu. Sed ut eros commodo.",
     };
   },
   components: {
@@ -163,9 +167,17 @@ export default {
     carl.removeEventListener("wheel", this.handleWheel);
   },
   methods: {
-    handleClick(){
-   
-       this.$refs.letter.classList.toggle("expanded");
+    handleHeartClick(e) {
+      if (e.target.classList.contains("special")) {
+        this.$refs.envelope.classList.toggle("actived");
+      }
+    },
+    handleBackClick() {
+      this.$refs.letter.classList.toggle("expanded");
+      this.$refs.envelope.classList.toggle("actived");
+    },
+    handleCardClick() {
+      this.$refs.letter.classList.toggle("expanded");
     },
     carouselChange(index) {
       this.currentIndex = index;
@@ -201,6 +213,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+h1,
+p {
+  font-family: yinhexi, Arial, Helvetica, sans-serif;
+}
+.el-icon {
+  font-size: 40px;
+}
 @keyframes open {
   100% {
     transform: rotatex(180deg);
@@ -230,7 +249,7 @@ export default {
   cursor: pointer;
   animation: slide-rev 0.2s ease-out;
 
-    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
@@ -239,25 +258,45 @@ export default {
 }
 .letter {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  height: 30vmin;
-  width: 48vmin;
-  margin: -30vmin 0 0 -24vmin;
+  top: 0;
+  left: 0;
+  margin: 53px;
+  height: 80%;
+  width: 90%;
+  opacity: 0;
   background: white;
-  transition: all .8s ease-in-out;
-  button{
+  transition: all 0.8s ease-in-out;
+  button {
     position: absolute;
     top: 20px;
     left: 20px;
     z-index: 1;
   }
-  h1,p{
+  h1,
+  p {
     color: black;
+    display: none;
   }
 }
-.paper{
-    width: 100%;
+
+.letter.expanded {
+  z-index: 999;
+  opacity: 1;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+
+  h1,
+  p {
+    display: block;
+  }
+}
+
+.paper {
+  width: 100%;
   height: 100%;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -285,25 +324,30 @@ export default {
   background: url("https://dogefs.s3.ladydaily.com/~/source/unsplash/photo-1586074299757-dc655f18518c?ixlib=rb-4.0.3&q=85&fmt=jpg&crop=entropy&cs=srgb&dl=marjan-blan-marjanblan-794QUz5-cso-unsplash.jpg");
   opacity: 0.3;
 }
-.letter.expanded {
-  top: 0;
-  left: 0;
-  margin: 53px;
-    height: 80%;
-    width: 90%;
-  border-radius: 0;
-  background: white;
-  z-index: 999;
 
-   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+/*卡片从右侧滑入*/
+@keyframes slideL {
+  100% {
+    transform: translatex(-100vmin);
+  }
 }
-
-
+@keyframes slideL-rev {
+  from {
+    transform: translatex(-100vmin);
+  }
+}
+.envelope-container.actived {
+  /*卡片划出动画*/
+  animation: slideL .8s;
+  animation-delay: 0.3s;
+  /*把卡面动画地从一个地方移动到另一个地方，并让它停留在那里。*/
+  animation-fill-mode: forwards;
+}
+.envelope-container:not(.actived) {
+  /*卡片划出动画*/
+  animation: slideL-rev 1.0s;
+  animation-fill-mode: forwards;
+}
 .envelope-container:hover .card {
   /*卡片划出动画*/
   animation: slide 0.2s;
@@ -311,6 +355,7 @@ export default {
   /*把卡面动画地从一个地方移动到另一个地方，并让它停留在那里。*/
   animation-fill-mode: forwards;
 }
+
 /*卡片划出信封*/
 @keyframes slide {
   100% {
@@ -378,17 +423,30 @@ export default {
 .envelope-container {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 120%;
   margin: -15vmin 0 0 -24vmin;
   z-index: 998;
 
-   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
   -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
+.envelope-container::after{
+  content: "";
+  z-index: 998;
+  position: absolute;
+  right: -247px;
+  top: -66px;
+  display: block;
+  width: 80%;
+  height: 200%;
+  background-image: url("../assets/img/myHandT.png");
+  background-size: cover;
+  transform: rotate(270deg) scaleX(1);
+} 
 /*相对定位，并设置背景色和大小*/
 .envelope {
   position: relative;
@@ -453,7 +511,7 @@ export default {
 
   margin-right: 80px;
 
-   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
@@ -634,11 +692,10 @@ footer {
 // -webkit-animation: zy 2.5s .15s linear infinite; /* Safari and Chrome */
 // -o-animation: zy 2.5s .15s linear infinite; /* Opera */
 
-.card h1{
+.card h1 {
   color: #000000;
 }
 
-.card:hover{
-  
+.card:hover {
 }
 </style>
