@@ -19,6 +19,7 @@
         <el-icon><CloseBold /></el-icon>
       </button>
       <div class="paper">
+        <div class='fla'></div>
         <h1 class="title">{{ title }}</h1>
         <p class="l-content">to: 小狗</p>
         <p class="l-content">{{ content }}</p>
@@ -237,6 +238,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.fla{
+ margin: 50px;
+  float: right;
+  width: 140px;
+  height: 206px;
+  background-image: url("../assets/img/flamingo.png");
+  background-size: cover;
+}
 h1,
 p {
   font-family: yinhexi, Arial, Helvetica, sans-serif;
@@ -325,7 +334,7 @@ p {
   background-color: #fff;
   border: 1px solid #ccc;
   overflow-y: scroll;
-  :nth-child(2){
+  :nth-child(3){
     text-align: left;
   }
   :last-child{
