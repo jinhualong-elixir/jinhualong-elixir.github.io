@@ -1,8 +1,8 @@
 <template>
   <div class="page">
       <h2>想你的周三</h2>
-      <p>小狗，每次看到桃花就会想起你的脸颊</p>
-      <p>说我油呗，反正挺贴切的</p>
+      <p>小狗，每次看到桃花就会想起你的脸颊，你真美</p>
+      <p>才没有油</p>
       <img :src="require(`@/assets/img/poppy1.jpg`)" class="image" />
   </div>
 </template>

@@ -1,9 +1,9 @@
 <template>
   <div class="hello grid-container">
     <meting-js
-      server="tencent"
+      server="netease"
       type="playlist"
-      id="8574171521"
+      id="7263067958"
       fixed="true"
       autoplay="true"
       loop="all"
@@ -20,8 +20,16 @@
       </button>
       <div class="paper">
         <h1 class="title">{{ title }}</h1>
+        <p class="l-content">to: 小狗</p>
         <p class="l-content">{{ content }}</p>
-        <p class="l-content">{{ content }}</p>
+        <p class="l-content">{{ content2 }}</p>
+        <p class="l-content">{{ content3 }}</p>
+        <p class="l-content">{{ content4 }}</p>
+        <p class="l-content">{{ content5 }}</p>
+        <p class="l-content">{{ content6 }}</p>
+        <p class="l-content">{{ content7 }}</p>
+        <p class="l-content">{{ content8 }}</p>
+         <p class="l-content">{{ content9 }}</p>
       </div>
     </div>
     <div class="envelope-container" ref="envelope">
@@ -43,7 +51,7 @@
     <div
       v-for="i in 7"
       :key="i"
-      :style="{ bottom: '0px', left: (i - 1) * (100 / 7) + '%' }"
+      :style="{ bottom: '35px', left: (i - 1) * (100 / 7) + '%' }"
       class="image-container"
     >
       <img
@@ -107,7 +115,7 @@
     <footer>
       Designed by Bryan •
       <a
-        href="https://github.com/alexwidua/prototypes"
+        href="https://github.com/jinhualong-elixir/jinhualong-elixir.github.io"
         target="_blank"
         rel="noopener"
         >Github</a
@@ -131,10 +139,26 @@ export default {
       currentIndex: 0,
       numIcons: 8,
       radius: 150,
-      title: "asdasda",
+      title: "一封情书",
       content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae semper magna. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec mauris lectus, tincidunt vitae cursus ac, sodales sed libero. Sed in metus sed ex interdum cursus non ut arcu. Nunc eu mi nec augue mollis eleifend id id augue. Duis ut tortor ac elit finibus feugiat. Integer in quam ornare, lobortis est eu, convallis arcu. Sed ut eros commodo.",
-    };
+        '"南伊豆是小阳春天气，一尘不染，晶莹透明，实在美极了。在浴池下方的上涨的小河，承受着暖融融的阳光，。昨夜的烦躁，自己也觉得如梦似幻"',
+      content2:
+        '我不知道伊豆的风景，但在他的眼里一定是如那个女孩一样明媚。而我也许是因为某位小狗的缘故，也爱上了杭州城的风景，我的情愫在那个亭子里徘徊，我的悸动从苏堤的这头折腾到了那头。'
+      ,content3:
+        '好喜欢你'
+        ,content4:
+        '说到心的悸动，还记得那个昏暗的威士忌吧么，有那一刻你眼睛的存在是那么显眼，让忘记了自己正聊着的话题，我只是看着你。'
+        ,content5:
+        '这就是我对你感情的开端了，在之后我们的进展顺利地让我有种梦幻的感觉，从并排散步到牵手...你有时候会和我抱怨是不是太快了，不过宝贝，我们才不是那种来去匆匆的浮躁都市男女呢'
+        ,content6:
+        '而你就像KFC一样，第一次尝试就爱上了，每周都吃不腻'
+        ,content7:
+        '好喜欢你'
+        ,content8:
+        '现在的我正在磕磕绊绊地组织着语言，心里对你的爱意却越来越浓厚。这个周末我继续搂着你闲聊吧，而小狗请不要忘记到我的怀里蹭蹭，我真的真的很需要这个'
+        ,content9:
+        '爱你的: "小娇妻"'
+   };
   },
   components: {
     SlideOne,
@@ -300,6 +324,13 @@ p {
   height: 100%;
   background-color: #fff;
   border: 1px solid #ccc;
+  overflow-y: scroll;
+  :nth-child(2){
+    text-align: left;
+  }
+  :last-child{
+    text-align: right;
+  }
 }
 .title {
   font-size: 40px;
@@ -495,7 +526,7 @@ p {
 }
 .grid-container {
   display: grid;
-  grid-template-rows: 100px 1fr 50px;
+  grid-template-rows: 100px 1fr 30px;
   grid-template-areas:
     "header"
     "main"
@@ -621,7 +652,14 @@ main {
 }
 footer {
   grid-area: footer;
+  background: black;
   z-index: 1;
+  text-align: end;
+  line-height: 30px;
+  a {
+    color:#a2a1a1;
+    margin-right: 20px;
+  }
 }
 
 .bg {
