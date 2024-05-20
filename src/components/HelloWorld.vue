@@ -254,9 +254,9 @@ export default {
       alert('恭喜你，获得了一个奖品！');
     },
     handleHeartClick(e) {
-      //if (e.target.classList.contains("special")) {
+      if (e.target.classList.contains("special")) {
         this.$refs.envelope.classList.toggle("actived");
-      //}
+      }
     },
     handleBackClick() {
       this.$refs.letter.classList.toggle("expanded");
