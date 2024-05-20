@@ -129,7 +129,7 @@
     </main>
 
     <footer>
-      Designed by Bryan •
+      Designed by Bryan Long•
       <a
         href="https://github.com/jinhualong-elixir/jinhualong-elixir.github.io"
         target="_blank"
