@@ -18,25 +18,40 @@
       <button @click="handleBackClick">
         <el-icon><CloseBold /></el-icon>
       </button>
-      <div class="paper">
-        <div class='fla'></div>
-        <h1 class="title">{{ title }}</h1>
-        <p class="l-content">to: 小狗</p>
-        <p class="l-content">{{ content }}</p>
-        <p class="l-content">{{ content2 }}</p>
-        <p class="l-content">{{ content3 }}</p>
-        <p class="l-content">{{ content4 }}</p>
-        <p class="l-content">{{ content5 }}</p>
-        <p class="l-content">{{ content6 }}</p>
-        <p class="l-content">{{ content7 }}</p>
-        <p class="l-content">{{ content8 }}</p>
-         <p class="l-content">{{ content9 }}</p>
-      </div>
+      <div class="canvas-container">
+        <!-- <div class="real-bg"></div> -->
+        <canvas ref="canvas" @mousedown="startScratch" @touchstart="startScratch"
+            @mousemove="scratch" @touchmove="scratch" @mouseup="stopScratch" @touchend="stopScratch">
+        </canvas>
+        <div class='canvas-bg'>
+          <!-- 这里放置底部文字和图案 -->
+          <p>中奖啦！！！</p>
+          <!-- <img src="bottom_image.jpg" alt="底部图案"> -->
+        </div>
+        <el-button class='priceBtn' plain @click="centerDialogVisible = true" v-if="revealed">
+          <el-icon><Present /></el-icon>兑换礼品
+        </el-button>
+
+        <el-dialog
+          v-model="centerDialogVisible"
+          title="耶!"
+          width="500"
+  
+        >
+        <img src="@/assets/img/jellycat.png" alt="Your Image">
+          <h3 style="text-align: center;">JellyCat一只任选</h3>
+          
+          <p style="text-align: center;">兑换方式: 加V 17373437778</p>
+        </el-dialog>
+
+        <!-- <el-button class= 'priceBtn' v-if="revealed" icon='el-icon-trophy' @click="redeemGift" type="info">兑换礼品</el-button> -->
     </div>
+      </div>
+
     <div class="envelope-container" ref="envelope">
       <div class="envelope"></div>
       <div class="card" id="test" @click="handleCardClick">
-        <h1 class="message">WILL YOU BE MY VALENTINE?</h1>
+        <h1 class="message">你是小狗欸</h1>
       </div>
       <div class="cover"></div>
       <div class="lid"></div>
@@ -141,24 +156,12 @@ export default {
       numIcons: 8,
       radius: 150,
       title: "一封情书",
-      content:
-        '"南伊豆是小阳春天气，一尘不染，晶莹透明，实在美极了。在浴池下方的上涨的小河，承受着暖融融的阳光，。昨夜的烦躁，自己也觉得如梦似幻"',
-      content2:
-        '我不知道伊豆的风景，但在他的眼里一定是如那个女孩一样明媚。而我也许是因为某位小狗的缘故，也爱上了杭州城的风景，我的情愫在那个亭子里徘徊，我的悸动从苏堤的这头折腾到了那头。'
-      ,content3:
-        '好喜欢你'
-        ,content4:
-        '说到心的悸动，还记得那个昏暗的威士忌吧么，有那一刻你眼睛的存在是那么显眼，让忘记了自己正聊着的话题，我只是看着你。'
-        ,content5:
-        '这就是我对你感情的开端了，在之后我们的进展顺利地让我有种梦幻的感觉，从并排散步到牵手...你有时候会和我抱怨是不是太快了，不过宝贝，我们才不是那种来去匆匆的浮躁都市男女呢'
-        ,content6:
-        '而你就像KFC一样，第一次尝试就爱上了，每周都吃不腻'
-        ,content7:
-        '好喜欢你'
-        ,content8:
-        '现在的我正在磕磕绊绊地组织着语言，心里对你的爱意却越来越浓厚。这个周末我继续搂着你闲聊吧，而小狗请不要忘记到我的怀里蹭蹭，我真的真的很需要这个'
-        ,content9:
-        '爱你的: "小娇妻"'
+
+      canvasContext: null,
+      lastX: 0,
+      lastY: 0,
+      revealed: false,
+      centerDialogVisible: false,
    };
   },
   components: {
@@ -184,14 +187,72 @@ export default {
       });
   },
   mounted() {
-    const carl = this.$refs.carl.$el;
-    carl.addEventListener("wheel", this.handleWheel);
+    this.canvasContext = this.$refs.canvas.getContext('2d');
+    this.canvasContext.fillStyle = 'gray';
+    this.canvasContext.fillRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
+    this.canvasContext.font = '20px Arial';
+    this.canvasContext.fillStyle = 'white';
+    this.canvasContext.fillText('刮一刮', 50, 50);
+    this.canvasContext.globalCompositeOperation = 'destination-out'; // 设置混合模式为destination-out，表示刮去Canvas上的内容
+    this.canvasContext.lineWidth = 20; // 设置笔触的宽度为20像素
   },
   beforeUnmount() {
     const carl = this.$refs.carl.$el;
     carl.removeEventListener("wheel", this.handleWheel);
   },
   methods: {
+    startScratch(e) {
+      console.log('asdasdasd')
+      debugger
+      e.preventDefault();
+      this.$refs.canvas.style.cursor = 'pointer';
+      this.lastX = e.clientX || e.touches[0].clientX;
+      this.lastY = e.clientY || e.touches[0].clientY;
+      //this.canvasContext.globalCompositeOperation = 'destination-out';
+      this.canvasContext.beginPath();
+    },
+    scratch(e) {
+      e.preventDefault();
+      if (!this.lastX || !this.lastY) {
+        return;
+      }
+      const x = e.clientX || e.touches[0].clientX;
+      const y = e.clientY || e.touches[0].clientY;
+      const offsetX = this.$refs.canvas.offsetLeft+250;
+      const offsetY = this.$refs.canvas.offsetTop+100;
+     // console.log(this.lastX - offsetX, this.lastY - offsetY,x - offsetX,y - offsetY)
+
+      this.canvasContext.moveTo(this.lastX - offsetX, this.lastY - offsetY);
+      this.canvasContext.lineTo(x - offsetX, y - offsetY+10);
+      this.canvasContext.stroke();
+      this.lastX = x;
+      this.lastY = y;
+      this.checkRevealed();
+    },
+    stopScratch() {
+      this.lastX = 0;
+      this.lastY = 0;
+      this.canvasContext.closePath();
+      this.$refs.canvas.style.cursor = 'default';
+      //this.checkRevealed();
+    },
+    checkRevealed() {
+      const imageData = this.canvasContext.getImageData(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
+      const pixels = imageData.data;
+      let revealedPixels = 0;
+      for (let i = 0; i < pixels.length; i += 4) {
+        if (pixels[i + 3] === 0) {
+          revealedPixels++;
+        }
+      }
+      const totalPixels = this.$refs.canvas.width * this.$refs.canvas.height;
+      const revealedPercentage = (revealedPixels / totalPixels) * 100;
+      console.log(revealedPercentage)
+      this.revealed = revealedPercentage >= 60; // 当刮开的百分比大于等于60%时，显示按钮
+    },
+    redeemGift() {
+      alert('恭喜你，获得了一个奖品！');
+    },
     handleHeartClick(e) {
       if (e.target.classList.contains("special")) {
         this.$refs.envelope.classList.toggle("actived");
@@ -341,6 +402,50 @@ p {
     text-align: right;
   }
 }
+.canvas-container{
+  display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-image: url("../assets/img/canvas-bg.jpg");
+      background-size: contain;
+    canvas {
+        position: absolute;
+        border: 1px solid black;
+        left: 50%;
+        top: 50%;
+        width: 500px;
+        height: 200px;
+        margin-left: -250px;
+        margin-top: -100px;
+    }
+    .canvas-bg{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 500px;
+        height: 200px;
+        margin-left: -250px;
+        margin-top: -100px;
+        background: white;
+        p{
+          line-height: 200px;
+          text-align: center;
+          font-size: 2rem;
+        }
+    }
+    .priceBtn {
+      display: block;
+        left: 50%;
+        top: 70%;
+        width: 200px;
+        height: 100px;
+        margin-left: -100px;
+        margin-top: -50px;
+    }
+}
+
+
 .title {
   font-size: 40px;
   font-weight: bold;
@@ -744,5 +849,14 @@ footer {
 }
 
 .card:hover {
+}
+
+canvas {
+  border: 1px solid black;
+  z-index: 9999;
+}
+.priceBtn {
+  display: block;
+  margin-top: 10px;
 }
 </style>
