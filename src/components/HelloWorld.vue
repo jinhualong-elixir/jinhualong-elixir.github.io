@@ -51,7 +51,7 @@
     <div class="envelope-container" ref="envelope">
       <div class="envelope"></div>
       <div class="card" id="test" @click="handleCardClick">
-        <h1 class="message">WILL YOU BE MY VALENTINE?</h1>
+        <h1 class="message">你是小狗欸</h1>
       </div>
       <div class="cover"></div>
       <div class="lid"></div>
